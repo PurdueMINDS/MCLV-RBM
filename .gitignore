@@ -99,3 +99,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+.idea/
+*.iml
+*.DS_Store
+scratch/plot/
+scratch/
