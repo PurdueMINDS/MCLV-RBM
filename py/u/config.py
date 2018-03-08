@@ -37,14 +37,6 @@ for d in [DATA_FOLDER, PLOT_OUTPUT_FOLDER, MODEL_FOLDER, IMG_OUTPUT_FOLDER, LOG_
 
 SQLITE_FILE = SQL_FOLDER + ARGS.sqlite + '.db'
 
-MEAN = "Mean"
-STDEV = "Std Dev"
-
-if LOCAL:
-    SAMPLED_DATA_SIZE = 1000
-else:
-    SAMPLED_DATA_SIZE = 10000
-
 GPU_LIMIT = int(ARGS.gpu_limit)
 GPU_HARD_LIMIT = int(ARGS.gpu_hard_limit)
 BATCH_SIZE_LIMIT = int(ARGS.batch_size_limit)
