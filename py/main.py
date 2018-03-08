@@ -26,7 +26,7 @@ class Main:
                 rbm.gpu = gpu
                 data, test = cls.load_data(gpu)
                 for sample_uniform in [True, False]:
-                    RBMUtil.run_tours(rbm, data, sample_uniform)
+                    RBMUtil.run_tours(rbm, data)
             return
         elif phase == Phase.GRADIENT:
             hidden_to_try = [(num_hidden, phase)

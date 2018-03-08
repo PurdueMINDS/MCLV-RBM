@@ -11,10 +11,11 @@ from u.gpu import Gpu
 
 class RBMUtil:
     @staticmethod
-    def run_tours(rbm: RBM, data, sample_uniform):
+    def run_tours(rbm: RBM, data):
         Log.info("Logging tours for the trained model")
         optimizer = MCLVKOptimizer(rbm, data, rbm.batch_size, -1, 1)
-        optimizer.sample_tour_length_distribution(sample_uniform)
+        for sample_uniform in [False, True]:
+            optimizer.sample_tour_length_distribution(sample_uniform)
 
     @staticmethod
     def save_model(rbm: RBM, filename):
