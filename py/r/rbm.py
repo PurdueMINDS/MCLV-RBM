@@ -10,7 +10,7 @@ from o.cdk_optimizer import CDKOptimizer
 from o.mclvk_optimizer import MCLVKOptimizer
 from o.optimizer import Optimizer
 from r.partition_estimator import PartitionEstimator
-from u.config import NAME_TABLE, GPU_HARD_LIMIT, DEBUG, GRADIENT_DETAIL_TABLE, NP_DT, LOG_FOLDER, LOCAL
+from u.config import NAME_TABLE, GPU_HARD_LIMIT, DEBUG, GRADIENT_DETAIL_TABLE, NP_DT, LOG_FOLDER, LOCAL, GPU_LIMIT
 from u.log import Log
 from u.metric import Metric
 from u.sqlite import SQLite
@@ -258,7 +258,7 @@ class RBM:
         :return:
         """
         eval_start = time.time()
-        L, Lt, log_Z, free_energy, free_energy_t, gradient = self.evaluate_gradient_partition(data, test)
+        L, Lt, log_Z, free_energy, free_energy_t, gradient = self.evaluate_gradient_partition(data, test, GPU_LIMIT)
 
         gd_angle = gd_mag = 0
         if gradient is not None and optimizer.batch_scaled_vht is not None:
@@ -286,11 +286,11 @@ class RBM:
         self.metric.log_table(epoch_number, epoch_time, eval_time, tour_detail, gd_angle, gd_mag, optimizer.lr,
                               optimizer.tour_ccdf, optimizer.mat_z_estimates, self.name)
 
-    def evaluate_gradient_partition(self, data, test):
+    def evaluate_gradient_partition(self, data, test, limit):
         pe = PartitionEstimator(self)
         free_energy = pe.marginal_cuda(data, pe.NT.visible, pe.RT.mean_log)
         free_energy_t = pe.marginal_cuda(test, pe.NT.visible, pe.RT.mean_log)
-        if self.num_hidden <= GPU_HARD_LIMIT:
+        if self.num_hidden <= limit:
             log_Z, lg_gradient = pe.get_partition_and_gradient()  # Get the actual partition function
             gradient = torch.exp(lg_gradient)
         else:

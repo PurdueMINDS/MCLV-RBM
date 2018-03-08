@@ -4,7 +4,7 @@ import torch
 
 from o.mclvk_optimizer import MCLVKOptimizer
 from r.rbm import RBM
-from u.config import MODEL_FOLDER
+from u.config import MODEL_FOLDER, GPU_HARD_LIMIT
 from u.log import Log
 from u.gpu import Gpu
 
@@ -50,7 +50,7 @@ class RBMUtil:
 
     @staticmethod
     def compute_likelihood(rbm: RBM, data, test):
-        L, Lt, log_Z, _, _, _ = rbm.evaluate_gradient_partition(data, test)
+        L, Lt, log_Z, _, _, _ = rbm.evaluate_gradient_partition(data, test, GPU_HARD_LIMIT)
         Log.var(L=L, Lt=Lt, log_Z=log_Z)
         return log_Z, L, Lt
 
