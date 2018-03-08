@@ -192,7 +192,7 @@ class RBM:
             self.evaluate(train, test, epoch_time=-1, epoch_number=-1, tour_detail=None,
                           optimizer=optimizer)
 
-        for epoch in range(self.max_epochs):
+        for epoch in tqdm(range(self.max_epochs), desc="epochs", file=self.get_tqdm_file()):
             epoch_start = time.time()
             idx_list = Util.shuffle(np.arange(train.shape[0]))
             optimizer = self.get_optimizer(self.method, epoch, iteration, train)
@@ -306,4 +306,4 @@ class RBM:
         return np.sqrt(torch.pow(data - recon, 2).sum(dim=1).mean())
 
     def get_tqdm_file(self):
-        return None if LOCAL else open(self.tqdm_file, 'a')
+        return None if LOCAL or Log._FORCE_MAIN else open(self.tqdm_file, 'a')

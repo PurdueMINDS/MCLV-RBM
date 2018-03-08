@@ -2,6 +2,7 @@ import socket
 
 import numpy as np
 import torch
+import os
 
 from u.argument_parser import CustomArgumentParser
 
@@ -31,8 +32,8 @@ IMG_OUTPUT_FOLDER = DATA_FOLDER + 'img/'
 LOG_FOLDER = DATA_FOLDER + 'log/'
 SQL_FOLDER = DATA_FOLDER + 'sql/'
 for d in [DATA_FOLDER, PLOT_OUTPUT_FOLDER, MODEL_FOLDER, IMG_OUTPUT_FOLDER, LOG_FOLDER, SQL_FOLDER]:
-    if not np.os.path.exists(d):
-        np.os.makedirs(d)
+    if not os.path.exists(d):
+        os.makedirs(d)
 
 SQLITE_FILE = SQL_FOLDER + ARGS.sqlite + '.db'
 
